@@ -36,13 +36,15 @@ body {
   z-index: 1000;
 }
 
-/* Contenitore interno centrato per logo + menu */
+/* Contenitore interno centrato per logo + menu (desktop: logo sinistra, menu destra) */
 .nav-container {
   max-width: 1120px;
   margin: 0 auto;
   display: flex;
+  flex-direction: row;       /* desktop: logo sinistra, menu destra */
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 /* Logo tipografico "SONIA CATTANEO" */
@@ -64,6 +66,9 @@ body {
 .nav-menu {
   display: flex;
   gap: 1.5rem;
+  position: static;
+  margin: 0;
+  justify-content: flex-end;  /* menu a destra su desktop */
 }
 
 /* Stile link di navigazione (About, Portfolio, Contatti) */
@@ -91,8 +96,23 @@ body {
   /* Su mobile: logo e voci di menu vanno una sotto l'altra */
   .nav-container {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 0.6rem;
   }
+
+  /* Logo centrato su mobile: occupa tutta la larghezza e testo centrato */
+  .nav-logo {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Menu centrato sotto il logo su mobile: occupa tutta la larghezza e voci centrate */
+  .nav-menu {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* Evita padding extra sul body nella versione mobile */
   body {
     padding-top: 0;
@@ -199,6 +219,18 @@ img { max-width: 100%; display: block; }
   color: #d4d4d4;
 }
 
+/* Link nella colonna destra (contatti) — niente blu, niente sottolineatura */
+.side-inner a,
+.side-inner a:link,
+.side-inner a:visited {
+  color: #d4d4d4;
+  text-decoration: none;
+}
+
+.side-inner a:hover {
+  color: #ffffff;
+}
+
 /* Pulsante “Download CV” in stile pill (arrotondato) */
 .btn-cv {
   display: inline-block;
@@ -296,7 +328,7 @@ img { max-width: 100%; display: block; }
      - Testo spostato sotto l'immagine
      - Nessun overlay per evitare sovrapposizioni
   */
-  /* Altezza libera su mobile (l’immagine non deve riempire per forza 260px) */
+  /* Altezza libera su mobile (l’mmagine non deve riempire per forza 260px) */
   .project-card {
     min-height: auto;
   }
@@ -340,7 +372,7 @@ img { max-width: 100%; display: block; }
   /* Griglia 2 colonne: sinistra main, destra sidebar */
   .portfolio-two-cols {
     display: grid;
-    grid-template-columns: 2fr 1fr;  /* sinistra: main, destra: side */
+    grid-template-columns: 70% 30%;  /* sinistra: main, destra: side */
     gap: 2rem;
     grid-template-areas: "main side"; /* definisco le aree */
   }
@@ -359,10 +391,14 @@ img { max-width: 100%; display: block; }
     grid-area: side;    /* area di destra */
   }
 
-  /* Sidebar sticky: resta visibile mentre scorrono i progetti */
   .side-inner {
-    position: sticky;
-    top: 2rem;
+    position: sticky;     /* sidebar resta visibile mentre scrolli ma NON si sovrappone */
+    top: 5rem;            /* distanza dalla navbar */
+    width: 100%;          /* occupa il 30% della griglia (colonna destra) */
+    height: auto;         /* altezza in base al contenuto */
+    overflow: visible;    /* niente scroll interno, scrolla la pagina sotto */
+    background: #0e0e0e;  /* mantiene lo stile attuale */
+    border: 1px solid #262626;
   }
 }
 
